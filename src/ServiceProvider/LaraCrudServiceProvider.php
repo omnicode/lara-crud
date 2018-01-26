@@ -14,7 +14,7 @@ class LaraCrudServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom($this->getPackagePath() .'routes.php');
+        $this->loadRoutesFrom(__DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR .'routes.php');
 
         $configPath = $this->getPackagePath() . 'config' . DIRECTORY_SEPARATOR . 'lara_crud.php';
         $this->mergeConfigFrom($configPath, 'lara_crud');
