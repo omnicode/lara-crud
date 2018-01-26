@@ -19,11 +19,11 @@ class LaraCrudServiceProvider extends ServiceProvider
         $configPath = $this->getPackagePath() . 'config' . DIRECTORY_SEPARATOR . 'lara_crud.php';
         $this->mergeConfigFrom($configPath, 'lara_crud');
 
-        $path = $this->getPackagePath() . 'resources/views';
+        $path = $this->getPackagePath() . 'resources' . DIRECTORY_SEPARATOR . 'views';
         $this->loadViewsFrom($path, 'lara-crud');
 
         $this->publishes([
-            $path => resource_path('views/vendor/lara-crud'),
+            $path => resource_path('views' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'lara-crud'),
             $configPath => config_path('lara_crud.php')
         ]);
     }
