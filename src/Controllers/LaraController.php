@@ -238,7 +238,7 @@ class LaraController extends Controller
         if (!ends_with($this->viewRootPath, $this->defaultViewRootPath . '.')) {
             $pathPart = !empty($pathComponent) ? strtolower(implode('.', $pathComponent)) . '.' : '';
             $pathPart .=  str_slug($this->itemName, '-');
-            $this->viewRootPath .= $pathPart;
+            $this->viewRootPath .= $pathPart . '.';
         }
 
     }

@@ -26,6 +26,7 @@ class LaraCrudServiceProvider extends ServiceProvider
             $path => resource_path('views' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'lara-crud'),
             $configPath => config_path('lara_crud.php')
         ]);
+
     }
 
     /**
