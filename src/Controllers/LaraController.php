@@ -52,7 +52,7 @@ class LaraController extends Controller
      */
     public function home()
     {
-        return view(config('lara_crud.path.home_view'));
+        return view(config('lara_crud.root_path.home_view'));
     }
 
     /**
