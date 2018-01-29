@@ -32,7 +32,7 @@ class LaraController extends Controller
     /**
      * @var string
      */
-    private $defaultViewRootPath = 'lara-view::page';
+    private $defaultViewRootPath = 'lara-view::crud';
 
     /**
      * @var
@@ -84,11 +84,11 @@ class LaraController extends Controller
     public function store(Request $request)
     {
         if ($this->baseService->create($request->all())) {
-            flash_success($this->itemName);
+            $this->flashSuccess($this->itemName);
             return $this->redirectIndexRouteBased('store');
         }
 
-        return $this->redirectWithErrors($this->baseService, $this->itemName);
+        return $this->redirectWithErrors();
     }
 
     /**
@@ -121,11 +121,11 @@ class LaraController extends Controller
     public function update(Request $request, $id)
     {
         if ($this->baseService->update($id, $request->all())) {
-            flash_success($this->itemName, true);
+            $this->flashSuccess($this->itemName, true);
             return $this->redirectIndexRouteBased('update');
         }
 
-        return $this->redirectWithErrors($this->baseService, $this->itemName);
+        return $this->redirectWithErrors();
     }
 
     /**
@@ -137,9 +137,9 @@ class LaraController extends Controller
         $deleted = $this->baseService->destroy($id);
 
         if ($deleted) {
-            flash_success($this->itemName, 'deleted');
+            $this->flashSuccess($this->itemName, 'deleted');
         } else {
-            flash_error($this->itemName, 'deleted');
+            $this->flashError($this->itemName, 'deleted');
         }
 
         return $this->redirectIndexRouteBased('destroy');
@@ -164,7 +164,8 @@ class LaraController extends Controller
         if (empty($message)) {
             $message = sprintf('%s can not be saved. Please see errors below', $model);
         }
-        flash($message, 'danger');
+
+        flash($message, 'info');
         return redirect()->back()->withInput()->withErrors($service->getValidationErrors());
     }
 
@@ -225,7 +226,6 @@ class LaraController extends Controller
         $pattern = array_pop($pathComponent);
         $pattern = str_replace_last('Controller', '', $pattern);
         $this->itemName = Inflector::humanize(Inflector::underscore($pattern));
-
 
         if (is_null($this->viewRootPath)) {
             $this->viewRootPath = config('lara_crud.root_path.view', '');

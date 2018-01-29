@@ -2,7 +2,7 @@
 return [
     'root_path' => [
         'controllers' => 'Http' . DS . 'Controllers',
-        'view' => 'lara-view::page',
+        'view' => 'lara-view::crud',
         'home_view' => 'lara-crud::home',
     ],
 
