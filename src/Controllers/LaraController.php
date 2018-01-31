@@ -1,7 +1,6 @@
 <?php
 namespace LaraCrud\Controllers;
 
-use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -30,14 +29,24 @@ class LaraController extends Controller
     protected $viewRootPath;
 
     /**
-     * @var string
+     * @var
      */
-    private $defaultViewRootPath = 'lara-view::crud';
+    protected $actionViewSuffix = [];
 
     /**
      * @var
      */
-    protected $methodViews = [];
+    protected $actionViewFullPath = [];
+
+    /**
+     * @var
+     */
+    protected $ignorePathStructure = true;
+
+    /**
+     * @var string
+     */
+    private $defaultViewRootPath = 'lara-view::crud';
 
     /**
      * LaraController constructor.
@@ -62,7 +71,6 @@ class LaraController extends Controller
     {
         $sort  = config('lara_crud.index.sort', []);
         list($items, $columns) = $this->baseService->paginate($sort);
-
         $view = $this->getMethodViewFullPath(__FUNCTION__);
         return view($view, compact('items', 'columns'));
     }
@@ -236,11 +244,13 @@ class LaraController extends Controller
         }
 
         if (!ends_with($this->viewRootPath, $this->defaultViewRootPath . '.')) {
-            $pathPart = !empty($pathComponent) ? strtolower(implode('.', $pathComponent)) . '.' : '';
+            $pathPart = '';
+            if (!$this->ignorePathStructure) {
+                $pathPart = !empty($pathComponent) ? strtolower(implode('.', $pathComponent)) . '.' : '';
+            }
             $pathPart .=  str_slug($this->itemName, '-');
             $this->viewRootPath .= $pathPart . '.';
         }
-
     }
 
     /**
@@ -249,10 +259,13 @@ class LaraController extends Controller
      */
     protected function getMethodViewFullPath($method)
     {
-        $suffix = !empty($this->methodViews[$method])
-            ? $this->methodViews[$method]
-            : config('lara_crud.methodViews.' . $method, $method);
+        if (!empty($this->actionViewFullPath[$method])) {
+            return $this->actionViewFullPath[$method];
+        }
 
+        $suffix = !empty($this->actionViewSuffix[$method])
+            ? $this->actionViewSuffix[$method]
+            : config('lara_crud.action_view.' . $method, $method);
         return $this->viewRootPath . $suffix;
     }
 
