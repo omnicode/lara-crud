@@ -11,7 +11,7 @@ return [
     ],
 
     'action_view' => [
-        'show' => 'show-example',
+        'view' => 'show',
     ],
 
     'forbidden' => [
@@ -21,12 +21,4 @@ return [
             'route' => 'lara-crud-home',
         ]
     ],
-
-    //TODO delete
-    'list' => [
-        'countries',
-        'currencies',
-        'regions',
-        'admin/owner_drawings'
-    ]
 ];

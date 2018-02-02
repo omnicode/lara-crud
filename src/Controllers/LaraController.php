@@ -228,6 +228,7 @@ class LaraController extends Controller
     protected function configureByController()
     {
         $namespacePrefix = app()->getNamespace(). config('lara_crud.root_path.controllers') . DS;
+        $namespacePrefix = str_replace('\\', DS, $namespacePrefix);
         $namespaceEnd = str_replace_first($namespacePrefix, '', get_class($this));
 
         $pathComponent = explode(DS, $namespaceEnd);
