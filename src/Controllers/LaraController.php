@@ -31,6 +31,11 @@ class LaraController extends Controller
     /**
      * @var
      */
+    protected $viewDirectPath;
+
+    /**
+     * @var
+     */
     protected $actionViewSuffix = [];
 
     /**
@@ -225,32 +230,48 @@ class LaraController extends Controller
         //TODO
     }
 
+
+
+
+    /**
+     *
+     */
     protected function configureByController()
     {
-        $namespacePrefix = app()->getNamespace(). config('lara_crud.root_path.controllers') . DS;
-        $namespacePrefix = str_replace('\\', DS, $namespacePrefix);
+        $namespacePrefix = app()->getNamespace(). config('lara_crud.root_path.controllers') . DIRECTORY_SEPARATOR;
+        $namespacePrefix = str_replace(DIRECTORY_SEPARATOR, '\\', $namespacePrefix);
         $namespaceEnd = str_replace_first($namespacePrefix, '', get_class($this));
 
-        $pathComponent = explode(DS, $namespaceEnd);
+        $pathComponent = explode('\\', $namespaceEnd);
         $pattern = array_pop($pathComponent);
         $pattern = str_replace_last('Controller', '', $pattern);
         $this->itemName = Inflector::humanize(Inflector::underscore($pattern));
+        if (is_null($this->viewDirectPath)) {
+            $this->setDirectPathBased($pathComponent);
+        }
 
+    }
+
+    /**
+     * @param $pathComponent
+     */
+    protected function setDirectPathBased($pathComponent)
+    {
         if (is_null($this->viewRootPath)) {
             $this->viewRootPath = config('lara_crud.root_path.view', '');
         }
 
         if (!empty($this->viewRootPath) && !ends_with($this->viewRootPath, '.')) {
-            $this->viewRootPath .= '.';
+            $this->viewDirectPath .= $this->viewRootPath . '.';
         }
 
-        if (!ends_with($this->viewRootPath, $this->defaultViewRootPath . '.')) {
+        if (!ends_with($this->viewDirectPath, $this->defaultViewRootPath . '.')) {
             $pathPart = '';
             if (!$this->ignorePathStructure) {
                 $pathPart = !empty($pathComponent) ? strtolower(implode('.', $pathComponent)) . '.' : '';
             }
             $pathPart .=  str_slug($this->itemName, '-');
-            $this->viewRootPath .= $pathPart . '.';
+            $this->viewDirectPath .= $pathPart . '.';
         }
     }
 
@@ -267,7 +288,7 @@ class LaraController extends Controller
         $suffix = !empty($this->actionViewSuffix[$method])
             ? $this->actionViewSuffix[$method]
             : config('lara_crud.action_view.' . $method, $method);
-        return $this->viewRootPath . $suffix;
+        return $this->viewDirectPath . $suffix;
     }
 
     /**

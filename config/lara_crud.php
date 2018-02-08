@@ -1,7 +1,7 @@
 <?php
 return [
     'root_path' => [
-        'controllers' => 'Http' . DS . 'Controllers',
+        'controllers' => 'Http' . DIRECTORY_SEPARATOR . 'Controllers',
         'view' => 'lara-view::crud',
         'home_view' => 'lara-crud::home',
     ],
