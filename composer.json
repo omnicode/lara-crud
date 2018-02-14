@@ -10,8 +10,6 @@
 	],
 	"require": {
 		"laravel/framework": "5.3.* || 5.4.* || 5.5.*",
-		"omnicode/lara-service": "~0.0",
-		"omnicode/lara-repo": "~0.0",
 		"omnicode/lara-view": "~0.0"
 	},
 	"require-dev": {
