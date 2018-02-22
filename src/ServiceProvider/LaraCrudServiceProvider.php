@@ -3,7 +3,6 @@
 namespace LaraCrud\ServiceProvider;
 
 use LaraSupport\LaraServiceProvider;
-use LaraView\ServiceProvider\LaraViewServiceProvider;
 
 class LaraCrudServiceProvider extends LaraServiceProvider
 {
@@ -22,6 +21,6 @@ class LaraCrudServiceProvider extends LaraServiceProvider
      */
     public function register()
     {
-        $this->registerProviders(LaraViewServiceProvider::class);
+        
     }
 }
