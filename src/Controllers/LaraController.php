@@ -1,4 +1,5 @@
 <?php
+
 namespace LaraCrud\Controllers;
 
 use Cake\Utility\Inflector;
@@ -74,7 +75,6 @@ class LaraController extends Controller
      */
     public function index()
     {
-        dd(route('lara-crud-home'));
         $sort  = config('lara_crud.index.sort', []);
         list($items, $columns) = $this->baseService->paginate($sort);
         $view = $this->getMethodViewFullPath(__FUNCTION__);
@@ -231,9 +231,6 @@ class LaraController extends Controller
         //TODO
     }
 
-
-
-
     /**
      *
      */
@@ -247,10 +244,10 @@ class LaraController extends Controller
         $pattern = array_pop($pathComponent);
         $pattern = str_replace_last('Controller', '', $pattern);
         $this->itemName = Inflector::humanize(Inflector::underscore($pattern));
+
         if (is_null($this->viewDirectPath)) {
             $this->setDirectPathBased($pathComponent);
         }
-
     }
 
     /**
@@ -300,5 +297,4 @@ class LaraController extends Controller
         $message =  str_singular($this->itemName ). ' not found';
         return view(config('lara_crud.forbidden.view'), compact('message'));
     }
-
 }

@@ -1,4 +1,4 @@
-@extends('lara-view::layouts.app')
+@extends('layouts.app')
 
 @section('content')
     <div class="row">
@@ -8,11 +8,8 @@
                 $buttonConfig = config('lara_crud.forbidden.button');
             @endphp
             <h1>
-                {!! LaraLink::link($buttonConfig['title'], ['route' => $buttonConfig['route'], 'btn' => true]) !!}
+                <a href="{{ route($buttonConfig['route']) }}" class="btn btn-primary">{{$buttonConfig['title']}}</a>
             </h1>
         </div>
     </div>
-
-
-
 @endsection
