@@ -9,7 +9,6 @@ use LaraSupport\LaraServiceProvider;
 use LaraSupport\Str;
 use LaraTest\Console\Commands\MakeTestController;
 use LaraTest\Console\Commands\MakeTestModel;
-use LaraView\ServiceProvider\LaraViewServiceProvider;
 
 class LaraCrudServiceProvider extends LaraServiceProvider
 {
@@ -28,6 +27,6 @@ class LaraCrudServiceProvider extends LaraServiceProvider
      */
     public function register()
     {
-        $this->registerProviders(LaraViewServiceProvider::class);
+        
     }
 }
