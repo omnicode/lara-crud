@@ -17,6 +17,13 @@
 		"mockery/mockery": "~1.0",
 		"phpunit/phpunit": "~6.0"
 	},
+	"suggest": {
+		"omnicode/lara-view-composer": "Useful view composers to populate dropdown lists",
+		"omnicode/lara-service": "Lara crud integrated with LaraService",
+		"omnicode/lara-repo": "Lara crud integrated with LaraRepo",
+		"omnicode/lara-model": "Lara crud integrated with LaraModel",
+		"omnicode/lara-view": "Lara crud integrated with LaraView"
+	},
 	"autoload": {
 		"psr-4": {
 			"LaraCrud\\": "src/"
