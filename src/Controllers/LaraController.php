@@ -75,8 +75,7 @@ class LaraController extends Controller
      */
     public function index()
     {
-        $sort  = config('lara_crud.index.sort', []);
-        list($items, $columns) = $this->baseService->paginate($sort);
+        list($items, $columns) = $this->baseService->paginate();
         $view = $this->getMethodViewFullPath(__FUNCTION__);
         return view($view, compact('items', 'columns'));
     }
