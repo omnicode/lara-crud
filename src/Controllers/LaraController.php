@@ -179,7 +179,7 @@ class LaraController extends Controller
             $message = sprintf('%s can not be saved. Please see errors below', $model);
         }
 
-        flash($message, 'info');
+        flash($message, 'danger');
         return redirect()->back()->withInput()->withErrors($service->getValidationErrors());
     }
 
