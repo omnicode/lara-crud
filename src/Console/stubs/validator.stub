@@ -1,0 +1,25 @@
+<?php
+
+{{namespace}}
+
+{{use}}
+
+{{abstract}} class {{pattern}} {{parent}} {{implements}}
+{
+    {{trait}}
+
+    {{constant}}
+
+    {{property}}
+
+    /**
+     * @return \LaraValidation\CoreValidator
+     */
+    public function validationDefault()
+    {
+        {{validator}}
+        return $this->validator;
+    }
+
+    {{method}}
+}

@@ -1,0 +1,18 @@
+<?php
+
+{{namespace}}
+
+{{use}}
+
+{{abstract}} class {{pattern}} {{parent}} {{implements}}
+{
+    {{trait}}
+
+    {{constant}}
+
+    public $repository = {{repository}};
+
+    {{property}}
+
+    {{method}}
+}

@@ -1,24 +1,14 @@
 <?php
 
-namespace LaraCrud\Controllers;
+namespace LaraCrud\Responses;
 
-use App\Http\Resources\BrandCollection;
-use App\Http\Resources\BrandResource;
-use App\Models\Brand;
-use App\Services\Admin\BaseService;
+
 use Cake\Utility\Inflector;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use LaraService\Services\LaraService;
+use LaraCrud\Responses\Interfaces\LaraCrudResponseInterface;
 
-class LaraController extends Controller
+class CrudResponse implements LaraCrudResponseInterface
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
     /**
      * @var
      */
@@ -33,7 +23,6 @@ class LaraController extends Controller
      * @var
      */
     protected $viewDirectPath;
-
 
     /**
      * @var
@@ -56,19 +45,12 @@ class LaraController extends Controller
     private $defaultViewRootPath = 'lara-view::crud';
 
     /**
-     * @var LaraService
+     * @param $controllerObject
      */
-    protected $baseService;
-
-
-    /**
-     * LaraController constructor.
-     */
-    public function __construct()
+    public function configure($controllerObject)
     {
-        $this->configureByController();
+        $this->configureByController($controllerObject);
     }
-
     /**
      *
      */
@@ -78,7 +60,22 @@ class LaraController extends Controller
     }
 
     /**
-     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function list(){
+
+    }
+    public function all()
+    {
+        $columns = [];
+        $items= $this->baseService->all();
+        $view = $this->getMethodViewFullPath(__FUNCTION__);
+        $itemName = $this->itemName;
+        return view($view, compact('items'));
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
@@ -239,13 +236,13 @@ class LaraController extends Controller
     }
 
     /**
-     *
+     * @param $object
      */
-    protected function configureByController()
+    protected function configureByController($object)
     {
         $namespacePrefix = app()->getNamespace(). config('lara_crud.root_path.controllers') . DIRECTORY_SEPARATOR;
         $namespacePrefix = str_replace(DIRECTORY_SEPARATOR, '\\', $namespacePrefix);
-        $namespaceEnd = str_replace_first($namespacePrefix, '', get_class($this));
+        $namespaceEnd = str_replace_first($namespacePrefix, '', get_class($object));
 
         $pathComponent = explode('\\', $namespaceEnd);
         $pattern = array_pop($pathComponent);
@@ -275,7 +272,7 @@ class LaraController extends Controller
             if (!$this->ignorePathStructure) {
                 $pathPart = !empty($pathComponent) ? strtolower(implode('.', $pathComponent)) . '.' : '';
             }
-            $pathPart .=  str_slug(str_plural($this->itemName), '-');
+            $pathPart .=  str_slug($this->itemName, '-');
             $this->viewDirectPath .= $pathPart . '.';
         }
     }
